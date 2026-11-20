@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Elite-SCR Studio Ultimate :: Standalone Windows Screensaver (.SCR) Builder | EliteSoftwareTech.cc</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico?v=2">
+    <link rel="icon" type="image/png" href="/favicon.png?v=2">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600;700&family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-primary: "Montserrat Alternates", "Segoe UI Semibold", sans-serif;
+            --font-body: "Segoe UI", Tahoma, Arial, sans-serif;
+            --glass-bg: rgba(255, 255, 255, 0.56);
+            --panel-bg: rgba(255, 255, 255, 0.92);
+            --vista-blue-dark: #003b75;
+            --border-glass: rgba(255, 255, 255, 0.8);
+            --border-dark: rgba(19, 75, 134, 0.28);
+            --teal-accent: #0b7a75;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font-body);
+            background-color: #002d5a;
+            background-image:
+                radial-gradient(circle at 10% 15%, rgba(0, 180, 255, 0.6) 0%, transparent 42%),
+                radial-gradient(circle at 90% 85%, rgba(0, 255, 160, 0.3) 0%, transparent 45%),
+                radial-gradient(circle at 50% 50%, rgba(100, 150, 255, 0.35) 0%, transparent 95%),
+                url('https://www.transparenttextures.com/patterns/pinstriped-suit.png');
+            background-attachment: fixed;
+            color: #102030;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+        .shell {
+            max-width: 1180px; margin: 24px auto; background: var(--glass-bg);
+            backdrop-filter: blur(28px) saturate(190%); -webkit-backdrop-filter: blur(28px) saturate(190%);
+            border: 1px solid var(--border-glass); border-radius: 10px;
+            box-shadow: 0 20px 60px rgba(0, 12, 30, 0.58); overflow: hidden;
+        }
+        header {
+            background: linear-gradient(to bottom, rgba(255,255,255,0.98) 0%, rgba(212,230,252,0.94) 100%);
+            border-bottom: 1px solid var(--border-dark); padding: 16px 26px;
+            display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;
+        }
+        .brand { display: flex; align-items: center; gap: 14px; }
+        .brand-orb { width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0 3px 8px rgba(0,0,0,0.3)); }
+        .brand h1 { font-family: var(--font-primary); font-size: 25px; color: var(--vista-blue-dark); text-shadow: 0 1px 0 #fff; }
+        .brand p { font-size: 11px; color: #465b70; text-transform: uppercase; letter-spacing: 1.2px; font-weight: 700; }
+        nav { display: flex; gap: 8px; flex-wrap: wrap; }
+        .aero-btn {
+            display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px;
+            border-radius: 5px; border: 1px solid #1c5b99;
+            background: linear-gradient(180deg, #eff7ff 0%, #cde4fc 49%, #b4d4f7 50%, #d3e8ff 100%);
+            color: #0a3460; text-decoration: none; font-family: var(--font-primary); font-size: 12.5px; font-weight: 600;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 1px 2px rgba(0,0,0,0.16);
+        }
+        .aero-btn:hover { background: linear-gradient(180deg, #ffffff 0%, #dceeff 49%, #c1e0ff 50%, #e4f2ff 100%); }
+        .aero-btn.primary {
+            background: linear-gradient(180deg, #6db3f2 0%, #3a89d6 49%, #1f6cb8 50%, #3787d4 100%);
+            color: #fff; border-color: #134a82; text-shadow: 0 -1px 0 rgba(0,0,0,0.35);
+        }
+        .hero { padding: 30px 28px; background: linear-gradient(135deg, rgba(255,255,255,0.88) 0%, rgba(226,240,255,0.84) 100%); border-bottom: 1px solid var(--border-dark); }
+        .hero h2 { font-family: var(--font-primary); font-size: 29px; color: #063566; margin-bottom: 10px; }
+        .hero p { max-width: 860px; font-size: 14px; color: #1f3954; margin-bottom: 18px; }
+        .hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+        main { padding: 26px 28px 34px; display: grid; gap: 20px; }
+        .two-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+        .three-col { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .panel { background: var(--panel-bg); border: 1px solid var(--border-dark); border-radius: 8px; padding: 20px; box-shadow: inset 0 1px 0 #fff, 0 4px 16px rgba(0, 24, 54, 0.14); }
+        .panel h3 { font-family: var(--font-primary); font-size: 17.5px; color: #093b70; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+        .tag { font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 4px; background: #dff7f5; color: var(--teal-accent); border: 1px solid #8ad4ce; }
+        .panel ul, .panel ol { margin-left: 18px; display: grid; gap: 6px; font-size: 13px; color: #21384f; }
+        .shot-card { background: #eef5fc; border: 1px solid #bdd4ec; border-radius: 8px; padding: 14px; text-align: center; }
+        .shot-card img { max-width: 100%; height: auto; border-radius: 5px; border: 1px solid #96b4d4; box-shadow: 0 4px 14px rgba(0,25,55,0.2); }
+        .shot-card p { margin-top: 8px; font-size: 12px; font-weight: 600; color: #2e4a66; }
+        code { font-family: Consolas, monospace; background: #e9f2fc; padding: 1px 5px; border-radius: 3px; font-size: 12px; color: #0d3d6e; }
+        footer { background: rgba(15, 45, 82, 0.9); color: #d6e7fa; padding: 16px 26px; font-size: 12px; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+        footer a { color: #8ad3ff; text-decoration: none; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="shell">
+        <header>
+            <div class="brand">
+                <img class="brand-orb" src="/favicon.png?v=2" alt="EliteSoftwareTech Logo" />
+                <div>
+                    <h1>Elite-SCR Studio Ultimate</h1>
+                    <p>Native C++ Standalone Windows Screensaver (.SCR) Compiler &bull; EliteSoftwareTech.cc</p>
+                </div>
+            </div>
+            <nav>
+                <a class="aero-btn primary" href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio/releases/download/v1.0.0.0/Elite-SCR-Studio-Ultimate.zip">Download Studio ZIP (v1.0.0.0)</a>
+                <a class="aero-btn" href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio/releases/latest" target="_blank" rel="noopener">Releases</a>
+                <a class="aero-btn" href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio" target="_blank" rel="noopener">GitHub Repo</a>
+                <a class="aero-btn" href="https://main.elitesoftwaretech.cc/">Main Portal</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h2>Compile Videos, Logos &amp; Images into Portable .SCR Executables</h2>
+            <p>
+                <strong>Elite-SCR Studio Ultimate</strong> (<code>SCR-Maker</code>) packages <code>.mp4</code>/<code>.avi</code> videos, bouncing images, or static slideshows together with custom <code>.ico</code> icons and configuration rules directly inside standalone Windows <code>.scr</code> screensaver binaries using native Win32 C++, Media Foundation / DirectShow, and GDI+ resource injection.
+            </p>
+            <div class="hero-actions">
+                <a class="aero-btn primary" href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio/releases/download/v1.0.0.0/Elite-SCR-Studio-Ultimate.zip">Download Elite-SCR Studio ZIP</a>
+                <a class="aero-btn" href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio" target="_blank" rel="noopener">View Source Code</a>
+            </div>
+        </section>
+
+        <main>
+            <section class="panel">
+                <h3>Studio Interface Preview <span class="tag">MDI EDITION</span></h3>
+                <div class="shot-card">
+                    <img src="/screenshot.png" alt="Elite-SCR Studio Ultimate Windows Interface">
+                    <p>Elite-SCR Studio Toolbar, Screensaver Mode Selector, Builder Defaults, Physics &amp; Template Settings, and Live Preview Area</p>
+                </div>
+            </section>
+
+            <div class="three-col">
+                <section class="panel">
+                    <h3>Video Playback Engine <span class="tag">VIDEOSTUB</span></h3>
+                    <ul>
+                        <li>Embeds <code>.mp4</code> and <code>.avi</code> videos directly into a redistributable <code>.scr</code> file.</li>
+                        <li>Supports multi-monitor behavior (<em>Primary</em>, <em>Duplicate on all</em>, <em>Span</em>) and scaling modes.</li>
+                        <li>Includes optional <em>Mute Video Audio</em> toggle and live in-studio previewing (<code>F5</code>).</li>
+                    </ul>
+                </section>
+
+                <section class="panel">
+                    <h3>Bouncing Logo Engine <span class="tag">BOUNCESTUB</span></h3>
+                    <ul>
+                        <li>Emulates the classic bouncing emblem/DVD logo across monitors via GDI+.</li>
+                        <li>Configurable independent X and Y physics speeds directly in Template Settings.</li>
+                        <li>Supports transparent PNG and standard image formats embedded as Win32 resources.</li>
+                    </ul>
+                </section>
+
+                <section class="panel">
+                    <h3>Static / Slideshow &amp; Stubs <span class="tag">INJECTOR</span></h3>
+                    <ul>
+                        <li>Clone &amp; resource-inject pre-compiled stub engines (<code>VideoStub.scr</code>, <code>BounceStub.scr</code>, <code>SlideStub.scr</code>) via <code>Injector.cpp</code>.</li>
+                        <li>Optional end-user <em>Configure</em> dialog pass-through for runtime overrides and registry persistence.</li>
+                        <li>Save/load reusable <code>.escr</code> project files with custom <code>.ico</code> icon injection.</li>
+                    </ul>
+                </section>
+            </div>
+        </main>
+
+        <footer>
+            <div><strong>Elite-SCR Studio Ultimate</strong> &bull; <strong>EliteSoftware Tech Co. | TheShadyRainbow4 | {Zach}</strong> &bull; <a href="https://main.elitesoftwaretech.cc/">EliteSoftwareTech.cc</a></div>
+            <div><a href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio" target="_blank" rel="noopener">Source Repository</a> &bull; <a href="https://github.com/TheShadyRainbow4/Elite-SCR-Studio/releases/tag/v1.0.0.0" target="_blank" rel="noopener">Release v1.0.0.0</a></div>
+        </footer>
+    </div>
+</body>
+</html>
